@@ -5,6 +5,7 @@ BeforeAll {
 }
 
 
+
 # create Pester tests for the above function Get-RuntimeInformation
 Describe 'Get-RuntimeInformation' {
     It 'should return the runtime information of the computer' {
@@ -13,7 +14,7 @@ Describe 'Get-RuntimeInformation' {
         $result.PSVersion.Minor | Should -Be 3
         $result.PSVersion.Patch | Should -Be 4
         $result.Framework | Should -Be '.NET 7.0.5'
-        ($result.OSVersion -split ' ')[0]| Should -Be 'Linux'
+        ($result.OSVersion -split ' ')[0] | Should -Be 'Linux'
         $result.Architecture | Should -Be 'X64'
         $result.Computername | Should -Be 'penguin'
     }
@@ -21,27 +22,28 @@ Describe 'Get-RuntimeInformation' {
 
 # create Pester tests for the function Get-UptimeCustom
 Describe 'Get-UptimeCustom' {
-    It 'should return the uptime of the computer' {
-        $result = Get-UptimeCustom
-        $result.ProcessName | Should -Be 'pwsh'
-        $result.Uptime.TotalSeconds | Should -BeGreaterThan 0
+    
+    Context 'With and without parameters' {
+        It 'should return the uptime of the computer' {
+            $result = Get-UptimeCustom
+            $result.ProcessName | Should -Be 'pwsh'
+            $result.Uptime.TotalSeconds | Should -BeGreaterThan 0
+        }
+    
+        It 'should return the uptime of the computer for processes starting with "p"' {
+            $result = Get-UptimeCustom -FirstLetter 'p'
+            $result.ProcessName | Should -Be 'pwsh'
+            $result.Uptime.TotalSeconds | Should -BeGreaterThan 0
+        }
     }
-}
 
-# create Pester tests for the function Get-UptimeCustom with a parameter
-Describe 'Get-UptimeCustom' {
-    It 'should return the uptime of the computer for processes starting with "p"' {
-        $result = Get-UptimeCustom -FirstLetter 'p'
-        $result.ProcessName | Should -Be 'pwsh'
-        $result.Uptime.TotalSeconds | Should -BeGreaterThan 0
+    
+    Context 'General function standards applied' {
+        It 'should have inline help' {
+            $result = Get-Help Get-UptimeCustom -Parameter FirstLetter
+            $result | Should -Not -BeNullOrEmpty
+        }
     }
-}
 
-# create Pester tests for the function Get-UptimeCustom checking it has inline help
-Describe 'Get-UptimeCustom' {
-    It 'should have inline help' {
-        $result = Get-Help Get-UptimeCustom -Parameter FirstLetter
-        $result | Should -Not -BeNullOrEmpty
-    }
 }
 
