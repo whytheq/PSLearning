@@ -1,15 +1,15 @@
 
-function Get-Uptime { 
+function Get-UptimeCustom { 
     <#
 .SYNOPSIS
     Returns the uptime of the computer.
 .DESCRIPTION    
     Returns the uptime of the computer.
 .EXAMPLE
-    Get-Uptime
+    Get-UptimeCustom
     Returns the uptime of the computer.
 .EXAMPLE
-    Get-Uptime -FirstLetter 'p'
+    Get-UptimeCustom -FirstLetter 'p'
     Returns the uptime of the computer for processes starting with 'p'.
 #>
     param( $FirstLetter )
