@@ -12,8 +12,13 @@ function Get-UptimeCustom {
     Get-UptimeCustom -FirstLetter 'p'
     Returns the uptime of the computer for processes starting with 'p'.
 #>
-    param( $FirstLetter )
-    if ( $null -eq $FirstLetter ) { $FirstLetter = 'p' }
+    [cmdletbinding()]
+    param( $FirstLetter = 'p')
+
+    Write-Verbose "[$((Get-Date).TimeOfDay)] Starting $($MyInvocation.MyCommand)" 
+    Write-Verbose "[$((Get-Date).TimeOfDay)] Running under PowerShell v$($PSVersionTable.PSVersion)" 
+
+    Write-Verbose "FirstLetter was $($FirstLetter.Length) long. $(if($FirstLetter.Length -gt 1){"It was longer than 1 so has been truncated to the first letter $($FirstLetter[0])"})" 
     if ( $FirstLetter.Length -gt 1 ) { $FirstLetter = $FirstLetter[0] }
     $pp = GET-PROCESS $FirstLetter* | select-object -Property ProcessName, StartTime -Last 1
     if ( $null -ne $pp ) { 
@@ -23,7 +28,19 @@ function Get-UptimeCustom {
             Uptime      = New-TimeSpan -Start $pp.StartTime -End (Get-Date) 
         }
     }   
-}
+
+    Write-Verbose "[$((Get-Date).TimeOfDay)] Ending $($MyInvocation.MyCommand)"
+} #close get-uptimecustom function
+
+
+
+
+
+
+
+
+
+
 
 Function Get-RuntimeInformation {
     <#
