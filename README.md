@@ -1,6 +1,6 @@
 # PSLearning
 
-* Powershell files I am experimenting with.
+* Contains Powershell files to experiment with.
 * Powershell course files
 
 The aim is to have fun while I learn about Powershell scripting. 
